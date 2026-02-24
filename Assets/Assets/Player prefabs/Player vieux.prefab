@@ -280,9 +280,9 @@ MonoBehaviour:
   dashForce: 12
   dashDuration: 0.2
   dashCooldown: 1
-  run: 0
-  dJump: 0
-  dash: 0
+  run: 1
+  dJump: 1
+  dash: 1
   allowAirControl: 1
   maxStandableSlopeAngle: 45
   slopeRayDistance: 1.2
