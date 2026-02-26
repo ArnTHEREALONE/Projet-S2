@@ -168,8 +168,8 @@ public class TimeControlMovableObject : MonoBehaviour
         float t = Mathf.Clamp01(resumeTimer / Mathf.Max(0.0001f, resumeDuration));
         float multiplier = Mathf.SmoothStep(0f, 1f, t);
 
-        rb.linearVelocity = velocityToRestore * multiplier;
-        rb.angularVelocity = angularVelocityToRestore * multiplier;
+        //rb.linearVelocity = velocityToRestore * multiplier;
+        //rb.angularVelocity = angularVelocityToRestore * multiplier;
 
         if (t >= 1f)
         {
@@ -182,6 +182,7 @@ public class TimeControlMovableObject : MonoBehaviour
     {
         states.Clear();
     }
+
 }
 
 public class ObjectState
@@ -198,4 +199,5 @@ public class ObjectState
         velocity = vel;
         angularVelocity = angVel;
     }
+
 }
