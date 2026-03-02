@@ -29,6 +29,10 @@ public class PlayerController : MonoBehaviour
     [Header("Air Control")]
     public bool allowAirControl = false;
 
+    [Header("Wall Run")]
+    public bool wallrunning;
+    public bool enableWallRun = true;
+
     [Header("Slope / Anti-Slide")]
     public float maxStandableSlopeAngle = 45f;
     public float slopeRayDistance = 1.2f;
@@ -42,7 +46,7 @@ public class PlayerController : MonoBehaviour
     private float dashTimer;
     private float dashCooldownTimer;
 
-    private int jumpCount;
+    public int jumpCount;
     private bool isGrounded;
     private bool isDashing;
 
@@ -134,7 +138,7 @@ public class PlayerController : MonoBehaviour
             );
         }
 
-        if (!isDashing)
+        if (!isDashing && !wallrunning)
         {
             rb.linearVelocity = new Vector3(
                 finalDirection.x * currentSpeed,
@@ -148,7 +152,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!run) return;
 
-        bool runInput = Input.GetKey(KeyCode.LeftShift);
+        bool runInput = Input.GetButton("Run");
 
         if (isGrounded)
         {
@@ -167,7 +171,7 @@ public class PlayerController : MonoBehaviour
     {
         int allowedJumps = dJump ? maxJumps : 1;
 
-        if (Input.GetKeyDown(KeyCode.Space) && jumpCount < allowedJumps)
+        if (Input.GetButtonDown("Jump") && jumpCount < allowedJumps)
         {
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
             rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
@@ -185,7 +189,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!dash) return;
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && dashCooldownTimer <= 0f && !isDashing)
+        if (Input.GetButtonDown("Dash") && dashCooldownTimer <= 0f && !isDashing)
         {
             Vector3 dashDirection = isGrounded ? groundMoveDirection : airMoveDirection;
 

@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 7582808292547922639}
   - component: {fileID: 8509028325795159959}
   - component: {fileID: 4832527926373322452}
+  - component: {fileID: -7991853501108747948}
   m_Layer: 0
   m_Name: Player enfant
   m_TagString: Untagged
@@ -188,18 +189,44 @@ MonoBehaviour:
   walkSpeed: 5
   runMaxSpeed: 10
   runAcceleration: 25
-  runDeceleration: 40
+  runDeceleration: 20
   jumpForce: 10
   maxJumps: 2
-  dashForce: 12
+  dashForce: 25
   dashDuration: 0.2
   dashCooldown: 1
   run: 1
-  dJump: 0
+  dJump: 1
   dash: 1
   allowAirControl: 1
+  wallrunning: 0
+  enableWallRun: 1
   maxStandableSlopeAngle: 45
   slopeRayDistance: 1.2
+  jumpCount: 0
+--- !u!114 &-7991853501108747948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5788803866409459103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a24eebe17f3a094ea54be35f977f3a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wall:
+    serializedVersion: 2
+    m_Bits: 128
+  wallRunForce: 15
+  wallClimbSpeed: 5
+  maxWallRunTime: 0.2
+  wallCheckDistance: 0.7
+  minJumpHeight: 1.5
+  wallJumpUpForce: 10
+  wallJumpSideForce: 13
+  orientation: {fileID: 0}
 --- !u!1 &6184400930131552171
 GameObject:
   m_ObjectHideFlags: 0

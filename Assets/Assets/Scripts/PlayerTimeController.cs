@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerTimeController : MonoBehaviour
 {
@@ -28,10 +29,17 @@ public class PlayerTimeController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(nextKey))
+        if (Gamepad.current != null)
+        {
+
+        }
+        bool lb = Gamepad.current.leftShoulder.isPressed;
+        bool rb = Gamepad.current.rightShoulder.isPressed;
+
+        if (Input.GetKeyDown(nextKey) || rb)
             CyclePlayer(true);
 
-        if (Input.GetKeyDown(previousKey))
+        if (Input.GetKeyDown(previousKey) || lb)
             CyclePlayer(false);
     }
 
