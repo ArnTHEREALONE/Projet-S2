@@ -474,7 +474,7 @@ GameObject:
   m_Component:
   - component: {fileID: 529604133007145469}
   m_Layer: 0
-  m_Name: LD_Ambre
+  m_Name: LD Ambre
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
