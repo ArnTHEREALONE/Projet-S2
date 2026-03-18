@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool isDashing;
 
+    private Vector3 platformVelocity;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -75,21 +77,33 @@ public class PlayerController : MonoBehaviour
 
     void HandleMovement()
     {
-        Vector3 moveInput = new Vector3(
-            Input.GetAxis("Horizontal"),
-            0f,
-            Input.GetAxis("Vertical")
-        );
+        Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        if (moveInput.magnitude > 1f) moveInput.Normalize();
 
-        if (moveInput.magnitude > 1f)
-            moveInput.Normalize();
+        // Raycast pour détecter le sol et récupérer la velocity de la plateforme
+        RaycastHit hit;
+        Vector3 rayOrigin = transform.position + Vector3.up * 0.1f;
+        platformVelocity = Vector3.zero;
+        isGrounded = false;
 
-        //pour ne pas glisser sur les pentes quand on est immobile
+        if (Physics.Raycast(rayOrigin, Vector3.down, out hit, slopeRayDistance))
+        {
+            if (hit.normal.y > 0.5f)
+            {
+                isGrounded = true;
+                jumpCount = 0;
+
+                Rigidbody platformRb = hit.collider.attachedRigidbody;
+                if (platformRb != null && !platformRb.isKinematic)
+                {
+                    platformVelocity = platformRb.linearVelocity;
+                }
+            }
+        }
+
+        // Pour ne pas glisser sur les pentes quand on est immobile
         if (moveInput.sqrMagnitude < 0.001f && isGrounded && !isDashing)
         {
-            RaycastHit hit;
-            Vector3 rayOrigin = transform.position + Vector3.up * 0.1f;
-
             if (Physics.Raycast(rayOrigin, Vector3.down, out hit, slopeRayDistance))
             {
                 Vector3 groundNormal = hit.normal;
@@ -97,12 +111,11 @@ public class PlayerController : MonoBehaviour
 
                 if (slopeAngle <= maxStandableSlopeAngle)
                 {
-                    rb.linearVelocity = Vector3.Project(rb.linearVelocity, groundNormal);
+                    rb.linearVelocity = Vector3.Project(rb.linearVelocity, groundNormal) + platformVelocity;
                     Vector3 slopeAcceleration = Vector3.ProjectOnPlane(Physics.gravity, groundNormal);
                     rb.AddForce(-slopeAcceleration, ForceMode.Acceleration);
                 }
             }
-
             return;
         }
 
@@ -144,7 +157,7 @@ public class PlayerController : MonoBehaviour
                 finalDirection.x * currentSpeed,
                 rb.linearVelocity.y,
                 finalDirection.z * currentSpeed
-            );
+            ) + platformVelocity;
         }
     }
 
@@ -159,11 +172,7 @@ public class PlayerController : MonoBehaviour
             float targetSpeed = runInput ? runMaxSpeed : walkSpeed;
             float accel = runInput ? runAcceleration : runDeceleration;
 
-            currentSpeed = Mathf.MoveTowards(
-                currentSpeed,
-                targetSpeed,
-                accel * Time.deltaTime
-            );
+            currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, accel * Time.deltaTime);
         }
     }
 

@@ -9,7 +9,12 @@ public class StickPlayerToPlatform : MonoBehaviour
         if (collision.gameObject == player)
         {
             player.transform.SetParent(transform);
-            Debug.Log("Player parented to platform");
+            Debug.Log("gameobj on");
+        }
+        else if (collision.gameObject.CompareTag("Player"))
+        {
+            player.transform.SetParent(transform);
+            Debug.Log("tag on");
         }
     }
 
@@ -18,7 +23,12 @@ public class StickPlayerToPlatform : MonoBehaviour
         if (collision.gameObject == player)
         {
             player.transform.SetParent(null);
-            Debug.Log("Player unparented from platform");
+            Debug.Log("gameobj out");
+        }
+        else if (collision.gameObject.CompareTag("Player"))
+        {
+            player.transform.SetParent(null);
+            Debug.Log("tag out");
         }
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using Unity.Collections;
 
 public class TimeControl : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class TimeControl : MonoBehaviour
 
     private Dictionary<Animator, float> animTimes = new Dictionary<Animator, float>();
     private Dictionary<Animator, int> stateHashes = new Dictionary<Animator, int>();
+
+    public AudioSource Rewind;
+    public AudioClip rewind1;
 
     private bool isManualControl = false;
     private bool isReturning = false;
@@ -42,7 +46,10 @@ public class TimeControl : MonoBehaviour
 
         float direction = 0f;
 
-        if (right > deadZone) direction += right;
+        if (right > deadZone)
+        {
+            direction += right;
+        }
         if (left > deadZone) direction -= left;
 
         if (direction != 0f)

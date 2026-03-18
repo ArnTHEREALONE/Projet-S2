@@ -15,14 +15,20 @@ public class TriggerTimeModifier : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        animator.enabled = true;
+        if (other.CompareTag("Player"))
+        {
+            animator.enabled = true;
 
-        timeControl.timeSpeed = timeSpeed;
-        timeControl.returnToNormalDuration = returnToNormalDuration;
+            timeControl.timeSpeed = timeSpeed;
+            timeControl.returnToNormalDuration = returnToNormalDuration;
+        }
     }
 
     void OnTriggerExit(Collider other)
     {
-        animator.enabled = false;
+        if (other.CompareTag("Player"))
+        {
+            animator.enabled = false;
+        }
     }
 }
